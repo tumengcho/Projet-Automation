@@ -1,0 +1,101 @@
+{
+    "intents": [
+        {
+            "intent": "ShutdownComputer",
+            "text": [
+                "Shutdown the computer",
+                "Turn off the computer",
+                "Power down the system"
+            ],
+            "responses": [
+                "Sure, initiating shutdown sequence...",
+                "Acknowledged. Shutting down the computer now.",
+                "Understood. Initiating power off procedure."
+            ],
+            "extension": {
+                "function": "shutdown_computer",
+                "entities": false,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": []
+        },
+        {
+            "intent": "OpenApplication",
+            "text": [
+                "Open [APPLICATION]",
+                "Launch [APPLICATION]",
+                "Start [APPLICATION]"
+            ],
+            "responses": [
+                "Opening [APPLICATION]...",
+                "Launching [APPLICATION] now.",
+                "Starting [APPLICATION]..."
+            ],
+            "extension": {
+                "function": "open_application",
+                "entities": true,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "APPLICATION",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "rangeFrom": 1,
+                    "rangeTo": 2
+                }
+            ]
+        },
+        {
+            "intent": "SearchWeb",
+            "text": [
+                "Search the web for [QUERY]",
+                "Look up [QUERY] online",
+                "Find information about [QUERY]"
+            ],
+            "responses": [
+                "Searching the web for information about [QUERY]...",
+                "Looking up [QUERY] online...",
+                "Finding information about [QUERY]..."
+            ],
+            "extension": {
+                "function": "search_web",
+                "entities": true,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "QUERY",
+            "entities": [
+                {
+                    "entity": "QUERY",
+                    "rangeFrom": 4,
+                    "rangeTo": 5
+                },
+                {
+                    "entity": "QUERY",
+                    "rangeFrom": 2,
+                    "rangeTo": 3
+                },
+                {
+                    "entity": "QUERY",
+                    "rangeFrom": 3,
+                    "rangeTo": 4
+                }
+            ]
+        }
+    ]
+}
