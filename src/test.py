@@ -1,5 +1,57 @@
+
 import spacy
+from spacy.training import Example
 import json
+import random
+
+
+def train_custom_ner_model(data_path, model_output_path="ner_model"):
+    # Load JSON data
+    with open(data_path, 'r') as f:
+        data = json.load(f)
+
+    # Initialize spaCy model
+    nlp = spacy.blank("en")
+
+
+    # Extract unique entity labels
+    labels = set()
+    for example in data['examples']:
+        for entity in example['entities']:
+            label = entity['entity']
+            if label not in labels:
+                labels.add(label)
+                # Add NER component to the pipeline for the new label
+                print(nlp.pipe_names)
+                if "ner" in nlp.pipe_names:
+                    nlp.remove_pipe("ner")
+                ner = nlp.add_pipe("ner")
+                ner.add_label(label)
+
+    # Prepare training data
+    train_data = []
+    for example in data['examples']:
+        text = example['text']
+        entities = example['entities']
+        entities_info = [(entity['start'], entity['end'], entity['entity']) for entity in entities]
+        train_data.append((text, {"entities": entities_info}))
+
+    # Convert training data to spaCy format
+    examples = []
+    for text, annots in train_data:
+        examples.append(Example.from_dict(nlp.make_doc(text), annots))
+
+    # Train the NER model
+    nlp.begin_training()
+    for _ in range(20):  # Adjust number of epochs as needed
+        random.shuffle(examples)
+        losses = {}
+        for example in examples:
+            nlp.update([example], losses=losses)
+        print("Losses:", losses)
+
+    # Save the trained model
+    nlp.to_disk(model_output_path)
 
 def teach_and_update_model():
     # Load the trained NER model
@@ -10,10 +62,10 @@ def teach_and_update_model():
         data = json.load(f)
 
     # Define a function to extract application names from text
-    def extract_application(text):
+    def extract_entities(text, entity_labels):
         doc = nlp(text)
-        applications_info = [(ent.label_, ent.text) for ent in doc.ents if ent.label_ == "APPLICATION"]
-        return applications_info
+        entities_info = [(ent.label_, ent.text) for ent in doc.ents if ent.label_ in entity_labels]
+        return entities_info
 
     # Simple chatbot loop
     print("Hello! I'm a chatbot. Type a command to launch an application.")
@@ -22,15 +74,28 @@ def teach_and_update_model():
         if user_input.lower() == "exit":
             print("Goodbye!")
             break
+        if user_input.lower() == "train":
+            train_custom_ner_model('Intents/test.json', model_output_path="ner_model")
+            break
         else:
-            applications_info = extract_application(user_input.lower())
+            labels = set()
+            for example in data['examples']:
+                for entity in example['entities']:
+                    label = entity['entity']
+                    if label not in labels:
+                        labels.add(label)
+            applications_info = extract_entities(user_input.lower(), labels)
+            print(applications_info)
             if applications_info:
                 for label, value in applications_info:
-                    print(f"Launching {value}...")
+                    print(f"{value}... -- {label}")
             else:
                 print("I couldn't recognize any application. Can you teach me?")
 
                 # Prompt user to provide entity and value
+                print("Existing entity: ")
+                for l in labels:
+                    print(l)
                 entity = input("What is the entity? (e.g., APPLICATION): ").upper()  # Convert to uppercase
                 value = input("What is its value? (e.g., Spotify): ").lower()  # Convert to lowercase
 

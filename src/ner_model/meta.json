@@ -18,7 +18,9 @@
   },
   "labels":{
     "ner":[
-      "APPLICATION"
+      "APPLICATION",
+      "SEARCHWEBQUERY",
+      "YOUTUBEVIDEO"
     ]
   },
   "pipeline":[

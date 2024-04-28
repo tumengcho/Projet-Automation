@@ -13,6 +13,7 @@ from sumy.summarizers.lsa import LsaSummarizer
 import time
 import pyautogui
 import ctypes
+import spacy
 
 # Download NLTK resources
 import nltk
@@ -75,11 +76,14 @@ model.fit(padded_sequences, categorical_vec, epochs=200, verbose=0)
 # Test data
 test_text_inputs = ["Shutdown the computer",
                     "Open Google Chrome",
-                    "Search the web for Python tutorials"]
+                    "Search the web for Python tutorials",
+                    "Open gitkraken"
+                    ]
 
 test_intents = ["ShutdownComputer",
                 "OpenApplication",
-                "SearchWeb"]
+                "SearchWeb",
+                "OpenApplication"]
 
 test_sequences = tokenizer.texts_to_sequences(test_text_inputs)
 test_padded_sequences = pad_sequences(test_sequences, padding='pre')
@@ -131,8 +135,7 @@ def shutdown_computer():
     ctypes.windll.user32.LockWorkStation()
 
 # Open an application
-def open_application():
-    app_name = input("Which app shall i open? ")
+def open_application(app_name):
     time.sleep(2)
 
     # Press the Windows key to open the Start menu
@@ -140,13 +143,21 @@ def open_application():
 
     # Type the name of the application
     pyautogui.write(app_name, interval=0.2)
-
-
-
     # Press Enter to open the application
     pyautogui.press('enter')
     print(f"{app_name} has been opened!")
 
+def extract_entities(text, model_path="ner_model"):
+        # Load the trained NER model
+    nlp = spacy.load(model_path)
+
+        # Process the input text
+    doc = nlp(text.lower())
+
+        # Extract entities from the processed document
+    entities_info = [(ent.label_, ent.text) for ent in doc.ents]
+
+    return entities_info
 
 def summarize_webpage(url, num_sentences=4):
     # Parse HTML content of the webpage
@@ -163,21 +174,50 @@ def summarize_webpage(url, num_sentences=4):
 
 
 # Perform actions based on detected intent
-def JarvisAi(intent):
+def JarvisAi(query):
+    bot_response, intent = response(query)
+    entities = extract_entities(query)
+    jarvis_reponse, value = replace_placeholders(bot_response, entities)
+    print(entities)
     if intent == "SearchWeb":
-        query = input("What would you like to search for? ")
-        search_web(query)
+        search_web(value)
+        print(jarvis_reponse)
+    elif intent == "OpenApplication":
+        if value:
+            open_application(value)
+            print(jarvis_reponse)
+        else:
+            print("Please retry i didnt understand!")
     elif intent in function_for_intent:
         # Call the function corresponding to the detected intent
         print("yee")
         function_name = function_for_intent[intent]
         globals()[function_name]()
 
+
+def replace_placeholders(response, entities):
+    """
+    Replace placeholders in a response with actual entity values.
+
+    Args:
+    - response (str): The response string containing placeholders.
+    - entities (list of tuples): List of tuples containing entity labels and values.
+
+    Returns:
+    - str: The response string with placeholders replaced by actual values.
+    """
+    replaced_response = response
+    for label, value in entities:
+        # Convert label to uppercase and surround with square brackets
+        placeholder = f"[{label.upper()}]"
+        # Replace placeholder with actual value
+        replaced_response = replaced_response.replace(placeholder, value)
+        return replaced_response, value
+
 # Main loop
 while True:
     query = input('You: ')
     if query.lower() == 'quit':
         break
-    bot_response, intentUser = response(query)
-    print("ChatBot: {} -- {}".format(bot_response, intentUser) )
-    JarvisAi(intentUser)
+
+    JarvisAi(query)

@@ -59,14 +59,14 @@
         {
             "intent": "SearchWeb",
             "text": [
-                "Search the web for [QUERY]",
-                "Look up [QUERY] online",
-                "Find information about [QUERY]"
+                "Search the web for [SEARCHWEBQUERY]",
+                "Look up [SEARCHWEBQUERY] online",
+                "Find information about [SEARCHWEBQUERY]"
             ],
             "responses": [
-                "Searching the web for information about [QUERY]...",
-                "Looking up [QUERY] online...",
-                "Finding information about [QUERY]..."
+                "Searching the web for information about [SEARCHWEBQUERY]...",
+                "Looking up [SEARCHWEBQUERY] online...",
+                "Finding information about [SEARCHWEBQUERY]..."
             ],
             "extension": {
                 "function": "search_web",
@@ -78,20 +78,20 @@
                 "out": "",
                 "clear": false
             },
-            "entityType": "QUERY",
+            "entityType": "SEARCHWEBQUERY",
             "entities": [
                 {
-                    "entity": "QUERY",
+                    "entity": "SEARCHWEBQUERY",
                     "rangeFrom": 4,
                     "rangeTo": 5
                 },
                 {
-                    "entity": "QUERY",
+                    "entity": "SEARCHWEBQUERY",
                     "rangeFrom": 2,
                     "rangeTo": 3
                 },
                 {
-                    "entity": "QUERY",
+                    "entity": "SEARCHWEBQUERY",
                     "rangeFrom": 3,
                     "rangeTo": 4
                 }

@@ -3,7 +3,7 @@ from spacy.training import Example
 import json
 import random
 
-def train_custom_ner_model(data_path, label="APPLICATION", model_output_path="ner_model"):
+def train_custom_ner_model(data_path, model_output_path="ner_model"):
     # Load JSON data
     with open(data_path, 'r') as f:
         data = json.load(f)
@@ -11,18 +11,34 @@ def train_custom_ner_model(data_path, label="APPLICATION", model_output_path="ne
     # Initialize spaCy model
     nlp = spacy.blank("en")
 
-    # Add NER component to the pipeline
-    ner = nlp.add_pipe("ner")
 
-    # Define entity labels
-    ner.add_label(label)
+    # Extract unique entity labels
+    labels = set()
+    for example in data['examples']:
+        for entity in example['entities']:
+            label = entity['entity']
+            if label not in labels:
+                labels.add(label)
+                # Add NER component to the pipeline for the new label
+                print(nlp.pipe_names)
+                if "ner" not in nlp.pipe_names:
+                    ner = nlp.add_pipe("ner")
+                    if label not in ner.labels:
+                        ner.add_label(label)
+
+                else:
+                    ner = nlp.get_pipe("ner")
+                    if label not in ner.labels:
+                        ner.add_label(label)
+
+
 
     # Prepare training data
     train_data = []
     for example in data['examples']:
         text = example['text']
         entities = example['entities']
-        entities_info = [(entity['start'], entity['end'], label) for entity in entities]
+        entities_info = [(entity['start'], entity['end'], entity['entity']) for entity in entities]
         train_data.append((text, {"entities": entities_info}))
 
     # Convert training data to spaCy format
@@ -32,15 +48,15 @@ def train_custom_ner_model(data_path, label="APPLICATION", model_output_path="ne
 
     # Train the NER model
     nlp.begin_training()
-    for _ in range(20):  # Adjust number of epochs as needed
+    for _ in range(100):  # Adjust number of epochs as needed
         random.shuffle(examples)
+        losses = {}
         for example in examples:
-            nlp.update([example], losses={})
+            nlp.update([example], losses=losses)
+        print("Losses:", losses)
 
     # Save the trained model
     nlp.to_disk(model_output_path)
 
 # Example usage:
-train_custom_ner_model('Intents/test.json', label="APPLICATION", model_output_path="ner_model")
-
-
+train_custom_ner_model('Intents/test.json', model_output_path="ner_model")
