@@ -4,6 +4,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import random
 import json
+from googleapiclient.discovery import build
 from googlesearch import search
 import webbrowser
 from rake_nltk import Rake
@@ -72,18 +73,21 @@ model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accur
 
 # Train the model
 model.fit(padded_sequences, categorical_vec, epochs=200, verbose=0)
+print(num_classes)
 
 # Test data
 test_text_inputs = ["Shutdown the computer",
                     "Open Google Chrome",
                     "Search the web for Python tutorials",
-                    "Open gitkraken"
+                    "Open gitkraken",
+                    "Play muhammed hijab on youtube"
                     ]
 
 test_intents = ["ShutdownComputer",
                 "OpenApplication",
                 "SearchWeb",
-                "OpenApplication"]
+                "OpenApplication",
+                "PlayYoutubeVideo"]
 
 test_sequences = tokenizer.texts_to_sequences(test_text_inputs)
 test_padded_sequences = pad_sequences(test_sequences, padding='pre')
@@ -105,6 +109,11 @@ def response(sentence):
     pred_class = np.argmax(pred.numpy(), axis=1)
     intent = unique_intents[pred_class[0]]
     return random.choice(response_for_intent[intent]), intent
+def intent_has_entities(intent_name):
+    for intent in data['intents']:
+        if intent['intent'] == intent_name:
+            return intent["extension"]["entities"]
+    return False
 
 # Search the web based on a query
 def search_web(query):
@@ -146,7 +155,33 @@ def open_application(app_name):
     # Press Enter to open the application
     pyautogui.press('enter')
     print(f"{app_name} has been opened!")
+def play_youtube(query):
+    api_key = 'AIzaSyAHS1FjoX45zJcvAA1vv8X1G4A7o5H7waA'
 
+    try:
+        # Build the YouTube API service
+        youtube = build('youtube', 'v3', developerKey=api_key)
+
+        # Call the search.list method to search for videos
+        search_response = youtube.search().list(
+            q=query,
+            part='snippet',
+            type='video',
+            maxResults=1
+        ).execute()
+
+        # Extract the video ID from the search results
+        video_id = search_response['items'][0]['id']['videoId']
+
+        # Construct the URL for the video
+        video_url = f'https://www.youtube.com/watch?v={video_id}'
+
+        # Open the video URL in the default web browser
+        webbrowser.open(video_url)
+        time.sleep(10)
+        pyautogui.press("f")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 def extract_entities(text, model_path="ner_model"):
         # Load the trained NER model
     nlp = spacy.load(model_path)
@@ -176,18 +211,21 @@ def summarize_webpage(url, num_sentences=4):
 # Perform actions based on detected intent
 def JarvisAi(query):
     bot_response, intent = response(query)
-    entities = extract_entities(query)
-    jarvis_reponse, value = replace_placeholders(bot_response, entities)
-    print(entities)
-    if intent == "SearchWeb":
-        search_web(value)
-        print(jarvis_reponse)
-    elif intent == "OpenApplication":
-        if value:
-            open_application(value)
-            print(jarvis_reponse)
+
+    if intent_has_entities(intent):
+
+        entities = extract_entities(query)
+        print(entities)
+        if entities:
+            jarvis_reponse, value = replace_placeholders(bot_response, entities)
+            print(entities)
+            if value:
+                print("first")
+                print(jarvis_reponse)
+                function_name = function_for_intent[intent]
+                globals()[function_name](value)
         else:
-            print("Please retry i didnt understand!")
+            print("{} . Intent is {} -- but value is none existent. Please teach me.".format(query, intent))
     elif intent in function_for_intent:
         # Call the function corresponding to the detected intent
         print("yee")
@@ -206,13 +244,19 @@ def replace_placeholders(response, entities):
     Returns:
     - str: The response string with placeholders replaced by actual values.
     """
+    if entities is None:
+        return response, None
+
     replaced_response = response
     for label, value in entities:
         # Convert label to uppercase and surround with square brackets
         placeholder = f"[{label.upper()}]"
         # Replace placeholder with actual value
         replaced_response = replaced_response.replace(placeholder, value)
-        return replaced_response, value
+        print(replaced_response)
+        if label and value:
+            return replaced_response, value
+
 
 # Main loop
 while True:

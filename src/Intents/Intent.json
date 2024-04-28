@@ -96,6 +96,38 @@
                     "rangeTo": 4
                 }
             ]
+        },
+        {
+    "intent": "PlayYoutubeVideo",
+    "text": [
+        "Play [YOUTUBEVIDEO] on YouTube",
+        "Watch [YOUTUBEVIDEO] on YouTube",
+        "Find [YOUTUBEVIDEO] video"
+    ],
+    "responses": [
+        "Sure, searching YouTube for [YOUTUBEVIDEO]...",
+        "Let me find [YOUTUBEVIDEO] on YouTube for you...",
+        "Searching for [YOUTUBEVIDEO] video on YouTube..."
+    ],
+    "extension": {
+        "function": "play_youtube",
+        "entities": true,
+        "responses": []
+    },
+    "context": {
+        "in": "",
+        "out": "",
+        "clear": false
+    },
+    "entityType": "YOUTUBEVIDEO",
+    "entities": [
+        {
+            "entity": "YOUTUBEVIDEO",
+            "rangeFrom": 1,
+            "rangeTo": 2
         }
+    ]
+}
+
     ]
 }
