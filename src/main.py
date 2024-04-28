@@ -3,6 +3,7 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import numpy as np
 import random
+import pyttsx3
 import json
 from googleapiclient.discovery import build
 from googlesearch import search
@@ -96,6 +97,11 @@ test_labels = tf.keras.utils.to_categorical(test_labels, num_classes=num_classes
 loss, accuracy = model.evaluate(test_padded_sequences, test_labels)
 
 # Extract keywords from user input
+def speak(text):
+    # Initialize the text-to-speech engine
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
 def extract_keywords(user_input):
     r = Rake()
     r.extract_keywords_from_text(user_input)
@@ -178,7 +184,7 @@ def play_youtube(query):
 
         # Open the video URL in the default web browser
         webbrowser.open(video_url)
-        time.sleep(10)
+        time.sleep(3)
         pyautogui.press("f")
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -221,14 +227,14 @@ def JarvisAi(query):
             print(entities)
             if value:
                 print("first")
-                print(jarvis_reponse)
+                speak(jarvis_reponse)
                 function_name = function_for_intent[intent]
                 globals()[function_name](value)
         else:
-            print("{} . Intent is {} -- but value is none existent. Please teach me.".format(query, intent))
+            speak("{} . Intent is {} -- but value is none existent. Please teach me.".format(query, intent))
     elif intent in function_for_intent:
         # Call the function corresponding to the detected intent
-        print("yee")
+        speak(bot_response)
         function_name = function_for_intent[intent]
         globals()[function_name]()
 
@@ -256,6 +262,7 @@ def replace_placeholders(response, entities):
         print(replaced_response)
         if label and value:
             return replaced_response, value
+
 
 
 # Main loop
