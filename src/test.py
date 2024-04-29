@@ -1,127 +1,77 @@
-
-import spacy
-from spacy.training import Example
-import json
-import random
-
-
-def train_custom_ner_model(data_path, model_output_path="ner_model"):
-    # Load JSON data
-    with open(data_path, 'r') as f:
-        data = json.load(f)
-
-    # Initialize spaCy model
-    nlp = spacy.blank("en")
+import sys
+from PyQt5.QtWidgets import QApplication, QLabel, QDesktopWidget
+from PyQt5.QtCore import QTimer, Qt, pyqtSignal
+from PyQt5.QtGui import QMovie
+import threading
 
 
-    # Extract unique entity labels
-    labels = set()
-    for example in data['examples']:
-        for entity in example['entities']:
-            label = entity['entity']
-            if label not in labels:
-                labels.add(label)
-                # Add NER component to the pipeline for the new label
-                print(nlp.pipe_names)
-                if "ner" in nlp.pipe_names:
-                    nlp.remove_pipe("ner")
-                ner = nlp.add_pipe("ner")
-                ner.add_label(label)
+class JarvisApp(QLabel):
+    image_changed = pyqtSignal(str)
 
-    # Prepare training data
-    train_data = []
-    for example in data['examples']:
-        text = example['text']
-        entities = example['entities']
-        entities_info = [(entity['start'], entity['end'], entity['entity']) for entity in entities]
-        train_data.append((text, {"entities": entities_info}))
+    def __init__(self):
+        super().__init__()
+        self.movie_path = "images/listening.gif"
+        self.init_ui()
 
-    # Convert training data to spaCy format
-    examples = []
-    for text, annots in train_data:
-        examples.append(Example.from_dict(nlp.make_doc(text), annots))
+    def init_ui(self):
+        self.set_movie(self.movie_path)
+        self.setAlignment(Qt.AlignCenter)
+        self.setScaledContents(True)  # Scale the movie to fit the label
+        # Start a timer to change the movie every 2 seconds
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.change_movie)
+        self.timer.start(2000)
 
-    # Train the NER model
-    nlp.begin_training()
-    for _ in range(20):  # Adjust number of epochs as needed
-        random.shuffle(examples)
-        losses = {}
-        for example in examples:
-            nlp.update([example], losses=losses)
-        print("Losses:", losses)
+    def set_movie(self, movie_path):
+        self.movie_path = movie_path
+        self.movie = QMovie(self.movie_path)
+        self.setMovie(self.movie)
+        self.movie.start()
 
-    # Save the trained model
-    nlp.to_disk(model_output_path)
+    def change_movie(self):
+        # Change the movie dynamically based on user input or other conditions
+        pass
 
-def teach_and_update_model():
-    # Load the trained NER model
-    nlp = spacy.load("ner_model")
+    def update_movie(self, movie_path):
+        self.set_movie(movie_path)
 
-    # Load JSON data
-    with open('Intents/test.json', 'r') as f:
-        data = json.load(f)
 
-    # Define a function to extract application names from text
-    def extract_entities(text, entity_labels):
-        doc = nlp(text)
-        entities_info = [(ent.label_, ent.text) for ent in doc.ents if ent.label_ in entity_labels]
-        return entities_info
+def JarvisAi(query):
+    # Example function to determine movie path based on user input
+    if "hello" in query.lower():
+        return "images/speaking.gif"
+    else:
+        return "images/listening.gif"
 
-    # Simple chatbot loop
-    print("Hello! I'm a chatbot. Type a command to launch an application.")
+
+def main_loop(jarvis_app):
     while True:
-        user_input = input("You: ")
-        if user_input.lower() == "exit":
-            print("Goodbye!")
+        query = input('You: ')
+        if query.lower() == 'quit':
             break
-        if user_input.lower() == "train":
-            train_custom_ner_model('Intents/test.json', model_output_path="ner_model")
-            break
-        else:
-            labels = set()
-            for example in data['examples']:
-                for entity in example['entities']:
-                    label = entity['entity']
-                    if label not in labels:
-                        labels.add(label)
-            applications_info = extract_entities(user_input.lower(), labels)
-            print(applications_info)
-            if applications_info:
-                for label, value in applications_info:
-                    print(f"{value}... -- {label}")
-            else:
-                print("I couldn't recognize any application. Can you teach me?")
+        movie_path = JarvisAi(query)
+        # Emit the image_changed signal with the new movie path
+        jarvis_app.image_changed.emit(movie_path)
 
-                # Prompt user to provide entity and value
-                print("Existing entity: ")
-                for l in labels:
-                    print(l)
-                entity = input("What is the entity? (e.g., APPLICATION): ").upper()  # Convert to uppercase
-                value = input("What is its value? (e.g., Spotify): ").lower()  # Convert to lowercase
 
-                # Find start index of value in lowercase input text
-                start_index = user_input.lower().index(value)
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    jarvis_app = JarvisApp()
+    jarvis_app.setWindowFlags(Qt.FramelessWindowHint)  # Remove window frame
+    jarvis_app.setAttribute(Qt.WA_TranslucentBackground)  # Make window background transparent
 
-                # Add new entity and value to the JSON data
-                data['examples'].append({
-                    "text": user_input,
-                    "entities": [{
-                        "entity": entity,
-                        "value": value,
-                        "start": start_index,
-                        "end": start_index + len(value)
-                    }]
-                })
+    # Get the screen resolution
+    desktop = QDesktopWidget()
+    screen_rect = desktop.screenGeometry()
+    jarvis_app.setGeometry(screen_rect)
 
-                # Save the updated JSON data
-                with open('Intents/test.json', 'w') as f:
-                    json.dump(data, f)
+    jarvis_app.show()
 
-                print(f"Thank you for teaching me! I'll remember {value} next time.")
+    # Connect the image_changed signal to the update_movie slot
+    jarvis_app.image_changed.connect(jarvis_app.update_movie)
 
-                # Re-train the NER model with the updated data
-                # (This part should be done offline and not in the chatbot loop)
-                # You can run the training script provided earlier in this conversation
+    # Start the Jarvis main loop in a separate thread
+    thread = threading.Thread(target=main_loop, args=(jarvis_app,))
+    thread.start()
 
-# Call the function to start the chatbot and update the model
-teach_and_update_model()
+    sys.exit(app.exec_())
