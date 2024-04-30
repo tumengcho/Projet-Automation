@@ -1,543 +1,664 @@
 {
-  "examples": [
-    {
-      "text": "open steam",
-      "entities": [
+    "examples": [
         {
-          "entity": "APPLICATION",
-          "value": "steam",
-          "start": 5,
-          "end": 10
-        }
-      ]
-    },
-    {
-      "text": "launch google chrome",
-      "entities": [
+            "text": "open steam",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "steam",
+                    "start": 5,
+                    "end": 10
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "google chrome",
-          "start": 7,
-          "end": 20
-        }
-      ]
-    },
-    {
-      "text": "start spotify",
-      "entities": [
+            "text": "launch google chrome",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "google chrome",
+                    "start": 7,
+                    "end": 20
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "spotify",
-          "start": 6,
-          "end": 13
-        }
-      ]
-    },
-    {
-      "text": "open chrome",
-      "entities": [
+            "text": "start spotify",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "spotify",
+                    "start": 6,
+                    "end": 13
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "chrome",
-          "start": 5,
-          "end": 11
-        }
-      ]
-    },
-    {
-      "text": "search for nike shoes on the web",
-      "entities": [
+            "text": "open chrome",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "chrome",
+                    "start": 5,
+                    "end": 11
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "nike shoes",
-          "start": 12,
-          "end": 22
-        }
-      ]
-    },
-    {
-      "text": "find information about islam",
-      "entities": [
+            "text": "search for nike shoes on the web",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "nike shoes",
+                    "start": 12,
+                    "end": 22
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "islam",
-          "start": 23,
-          "end": 28
-        }
-      ]
-    },
-    {
-      "text": "make a research about the best offline games",
-      "entities": [
+            "text": "find information about islam",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "islam",
+                    "start": 23,
+                    "end": 28
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "best offline games",
-          "start": 16,
-          "end": 34
-        }
-      ]
-    },
-    {
-      "text": "search for nike shoes",
-      "entities": [
+            "text": "make a research about the best offline games",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "best offline games",
+                    "start": 16,
+                    "end": 34
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "nike shoes",
-          "start": 12,
-          "end": 22
-        }
-      ]
-    },
-    {
-      "text": "find info about spiderman",
-      "entities": [
+            "text": "search for nike shoes",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "nike shoes",
+                    "start": 12,
+                    "end": 22
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "spiderman",
-          "start": 12,
-          "end": 21
-        }
-      ]
-    },
-    {
-      "text": "research the top history books online",
-      "entities": [
+            "text": "find info about spiderman",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "spiderman",
+                    "start": 12,
+                    "end": 21
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "top history books",
-          "start": 13,
-          "end": 31
-        }
-      ]
-    },
-    {
-      "text": "search for the best nike shoes",
-      "entities": [
+            "text": "research the top history books online",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "top history books",
+                    "start": 13,
+                    "end": 31
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "best nike shoes",
-          "start": 12,
-          "end": 27
-        }
-      ]
-    },
-    {
-      "text": "open firefox",
-      "entities": [
+            "text": "search for the best nike shoes",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "best nike shoes",
+                    "start": 12,
+                    "end": 27
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "firefox",
-          "start": 5,
-          "end": 12
-        }
-      ]
-    },
-    {
-      "text": "start internet explorer",
-      "entities": [
+            "text": "open firefox",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "firefox",
+                    "start": 5,
+                    "end": 12
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "internet explorer",
-          "start": 6,
-          "end": 24
-        }
-      ]
-    },
-    {
-      "text": "search for adidas sneakers",
-      "entities": [
+            "text": "start internet explorer",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "internet explorer",
+                    "start": 6,
+                    "end": 24
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "adidas sneakers",
-          "start": 12,
-          "end": 27
-        }
-      ]
-    },
-    {
-      "text": "find details about buddhism",
-      "entities": [
+            "text": "search for adidas sneakers",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "adidas sneakers",
+                    "start": 12,
+                    "end": 27
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "buddhism",
-          "start": 18,
-          "end": 27
-        }
-      ]
-    },
-    {
-      "text": "look up information about ancient egypt",
-      "entities": [
+            "text": "find details about buddhism",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "buddhism",
+                    "start": 18,
+                    "end": 27
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "ancient egypt",
-          "start": 17,
-          "end": 29
-        }
-      ]
-    },
-    {
-      "text": "start vlc media player",
-      "entities": [
+            "text": "look up information about ancient egypt",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "ancient egypt",
+                    "start": 17,
+                    "end": 29
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "vlc media player",
-          "start": 6,
-          "end": 21
-        }
-      ]
-    },
-    {
-      "text": "search for iphone reviews",
-      "entities": [
+            "text": "start vlc media player",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "vlc media player",
+                    "start": 6,
+                    "end": 21
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "iphone reviews",
-          "start": 12,
-          "end": 26
-        }
-      ]
-    },
-    {
-      "text": "look up information about pandas",
-      "entities": [
+            "text": "search for iphone reviews",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "iphone reviews",
+                    "start": 12,
+                    "end": 26
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "pandas",
-          "start": 17,
-          "end": 23
-        }
-      ]
-    },
-    {
-      "text": "open microsoft edge",
-      "entities": [
+            "text": "look up information about pandas",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "pandas",
+                    "start": 17,
+                    "end": 23
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "microsoft edge",
-          "start": 5,
-          "end": 18
-        }
-      ]
-    },
-    {
-      "text": "find details about the great wall of china",
-      "entities": [
+            "text": "open microsoft edge",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "microsoft edge",
+                    "start": 5,
+                    "end": 18
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "great wall of china",
-          "start": 17,
-          "end": 36
-        }
-      ]
-    },
-    {
-      "text": "research best books of 2024",
-      "entities": [
+            "text": "find details about the great wall of china",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "great wall of china",
+                    "start": 17,
+                    "end": 36
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "best books of 2024",
-          "start": 9,
-          "end": 27
-        }
-      ]
-    },
-    {
-      "text": "research how to have a six pack",
-      "entities": [
+            "text": "research best books of 2024",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "best books of 2024",
+                    "start": 9,
+                    "end": 27
+                }
+            ]
+        },
         {
-          "entity": "SEARCHWEBQUERY",
-          "value": "how to have a six pack",
-          "start": 9,
-          "end": 31
-        }
-      ]
-    },
-    {
-      "text": "open pycharm",
-      "entities": [
+            "text": "research how to have a six pack",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "how to have a six pack",
+                    "start": 9,
+                    "end": 31
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "pycharm",
-          "start": 5,
-          "end": 12
-        }
-      ]
-    },
-    {
-      "text": "play mohammed hijab",
-      "entities": [
+            "text": "open pycharm",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "pycharm",
+                    "start": 5,
+                    "end": 12
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "mohammed hijab",
-          "start": 5,
-          "end": 19
-        }
-      ]
-    },
-    {
-      "text": "play the last video of squeezie",
-      "entities": [
+            "text": "play mohammed hijab",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "mohammed hijab",
+                    "start": 5,
+                    "end": 19
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "squeezie",
-          "start": 23,
-          "end": 31
-        }
-      ]
-    },
-    {
-      "text": "play a video about jujutsu kaisen",
-      "entities": [
+            "text": "play the last video of squeezie",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "squeezie",
+                    "start": 23,
+                    "end": 31
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "jujutsu kaisen",
-          "start": 19,
-          "end": 34
-        }
-      ]
-    },
-    {
-      "text": "play a video about one piece",
-      "entities": [
+            "text": "play a video about jujutsu kaisen",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "jujutsu kaisen",
+                    "start": 19,
+                    "end": 34
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "one piece",
-          "start": 19,
-          "end": 28
-        }
-      ]
-    },
-    {
-      "text": "hey chatbot, play the video titled exploring the amazon rainforest",
-      "entities": [
+            "text": "play a video about one piece",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "one piece",
+                    "start": 19,
+                    "end": 28
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "exploring the amazon rainforest",
-          "start": 35,
-          "end": 66
-        }
-      ]
-    },
-    {
-      "text": "jarvis, start playing the history of rome video",
-      "entities": [
+            "text": "hey chatbot, play the video titled exploring the amazon rainforest",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "exploring the amazon rainforest",
+                    "start": 35,
+                    "end": 66
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "the history of rome video",
-          "start": 22,
-          "end": 47
-        }
-      ]
-    },
-    {
-      "text": "can you play the video titled how to bake chocolate chip cookies?",
-      "entities": [
+            "text": "jarvis, start playing the history of rome video",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "the history of rome video",
+                    "start": 22,
+                    "end": 47
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "how to bake chocolate chip cookies",
-          "start": 24,
-          "end": 58
-        }
-      ]
-    },
-    {
-      "text": "i'd like to watch the history of rome video, please.",
-      "entities": [
+            "text": "can you play the video titled how to bake chocolate chip cookies?",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "how to bake chocolate chip cookies",
+                    "start": 24,
+                    "end": 58
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "the history of rome video",
-          "start": 18,
-          "end": 43
-        }
-      ]
-    },
-    {
-      "text": "chatbot, start playing space exploration video.",
-      "entities": [
+            "text": "i'd like to watch the history of rome video, please.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "the history of rome video",
+                    "start": 18,
+                    "end": 43
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "space exploration video",
-          "start": 24,
-          "end": 47
-        }
-      ]
-    },
-    {
-      "text": "play 10 tips for productivity video from youtube.",
-      "entities": [
+            "text": "chatbot, start playing space exploration video.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "space exploration video",
+                    "start": 24,
+                    "end": 47
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "10 tips for productivity video",
-          "start": 5,
-          "end": 41
-        }
-      ]
-    },
-    {
-      "text": "can you find and play best movie trailers 2023?",
-      "entities": [
+            "text": "play 10 tips for productivity video from youtube.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "10 tips for productivity video",
+                    "start": 5,
+                    "end": 41
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "best movie trailers 2023",
-          "start": 21,
-          "end": 47
-        }
-      ]
-    },
-    {
-      "text": "chatbot, play travel vlog: exploring japan.",
-      "entities": [
+            "text": "can you find and play best movie trailers 2023?",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "best movie trailers 2023",
+                    "start": 21,
+                    "end": 47
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "travel vlog: exploring japan",
-          "start": 12,
-          "end": 47
-        }
-      ]
-    },
-    {
-      "text": "could you start learn python programming video for me?",
-      "entities": [
+            "text": "chatbot, play travel vlog: exploring japan.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "travel vlog: exploring japan",
+                    "start": 12,
+                    "end": 47
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "learn python programming video",
-          "start": 16,
-          "end": 50
-        }
-      ]
-    },
-    {
-      "text": "play cooking techniques: knife skills video, please.",
-      "entities": [
+            "text": "could you start learn python programming video for me?",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "learn python programming video",
+                    "start": 16,
+                    "end": 50
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "cooking techniques: knife skills video",
-          "start": 5,
-          "end": 47
-        }
-      ]
-    },
-    {
-      "text": "chatbot, begin introduction to artificial intelligence video.",
-      "entities": [
+            "text": "play cooking techniques: knife skills video, please.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "cooking techniques: knife skills video",
+                    "start": 5,
+                    "end": 47
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "introduction to artificial intelligence video",
-          "start": 18,
-          "end": 63
-        }
-      ]
-    },
-    {
-      "text": "i want to watch funny cat compilation, can you play it?",
-      "entities": [
+            "text": "chatbot, begin introduction to artificial intelligence video.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "introduction to artificial intelligence video",
+                    "start": 18,
+                    "end": 63
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "funny cat compilation",
-          "start": 16,
-          "end": 42
-        }
-      ]
-    },
-    {
-      "text": "can you find and play top 10 science experiments?",
-      "entities": [
+            "text": "i want to watch funny cat compilation, can you play it?",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "funny cat compilation",
+                    "start": 16,
+                    "end": 42
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "top 10 science experiments",
-          "start": 21,
-          "end": 52
-        }
-      ]
-    },
-    {
-      "text": "hey chatbot, start playing how to paint sunsets.",
-      "entities": [
+            "text": "can you find and play top 10 science experiments?",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "top 10 science experiments",
+                    "start": 21,
+                    "end": 52
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "how to paint sunsets",
-          "start": 23,
-          "end": 49
-        }
-      ]
-    },
-    {
-      "text": "play best music videos of 2023 on youtube.",
-      "entities": [
+            "text": "hey chatbot, start playing how to paint sunsets.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "how to paint sunsets",
+                    "start": 23,
+                    "end": 49
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "best music videos of 2023",
-          "start": 5,
-          "end": 37
-        }
-      ]
-    },
-    {
-      "text": "i'm in the mood for classic movie trailers, please start.",
-      "entities": [
+            "text": "play best music videos of 2023 on youtube.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "best music videos of 2023",
+                    "start": 5,
+                    "end": 37
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "classic movie trailers",
-          "start": 14,
-          "end": 43
-        }
-      ]
-    },
-    {
-      "text": "i would like to watch squeezie",
-      "entities": [
+            "text": "i'm in the mood for classic movie trailers, please start.",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "classic movie trailers",
+                    "start": 14,
+                    "end": 43
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "squeezie",
-          "start": 22,
-          "end": 30
-        }
-      ]
-    },
-    {
-      "text": "i would like to watch muhammed hijab",
-      "entities": [
+            "text": "i would like to watch squeezie",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "squeezie",
+                    "start": 22,
+                    "end": 30
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "muhammed hijab",
-          "start": 22,
-          "end": 36
-        }
-      ]
-    },
-    {
-      "text": "start playing a video of norman",
-      "entities": [
+            "text": "i would like to watch muhammed hijab",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "muhammed hijab",
+                    "start": 22,
+                    "end": 36
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "norman",
-          "start": 25,
-          "end": 31
-        }
-      ]
-    },
-    {
-      "text": "play lattest video of ali dawah",
-      "entities": [
+            "text": "start playing a video of norman",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "norman",
+                    "start": 25,
+                    "end": 31
+                }
+            ]
+        },
         {
-          "entity": "YOUTUBEVIDEO",
-          "value": "ali dawah",
-          "start": 22,
-          "end": 31
-        }
-      ]
-    },
-    {
-      "text": "open explorer",
-      "entities": [
+            "text": "play lattest video of ali dawah",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "ali dawah",
+                    "start": 22,
+                    "end": 31
+                }
+            ]
+        },
         {
-          "entity": "APPLICATION",
-          "value": "explorer",
-          "start": 5,
-          "end": 13
+            "text": "open explorer",
+            "entities": [
+                {
+                    "entity": "APPLICATION",
+                    "value": "explorer",
+                    "start": 5,
+                    "end": 13
+                }
+            ]
+        },
+        {
+            "text": "play a video of mecca on youtube",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "mecca",
+                    "start": 16,
+                    "end": 21
+                }
+            ]
+        },
+        {
+            "text": "play mecca",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "mecca",
+                    "start": 5,
+                    "end": 10
+                }
+            ]
+        },
+        {
+            "text": "research omnivox",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "omnivox",
+                    "start": 9,
+                    "end": 16
+                }
+            ]
+        },
+        {
+            "text": "research jarvis ui",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "jarvis ui",
+                    "start": 9,
+                    "end": 18
+                }
+            ]
+        },
+        {
+            "text": "play ivory coast vs nigeria on youtube",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "ivory coast vs nigeria",
+                    "start": 5,
+                    "end": 27
+                }
+            ]
+        },
+        {
+            "text": "play canda vs usa on youtube",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "canda vs usa",
+                    "start": 5,
+                    "end": 17
+                }
+            ]
+        },
+        {
+            "text": "play a video on youtube on bleach",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "value": "bleach",
+                    "start": 27,
+                    "end": 33
+                }
+            ]
+        },
+        {
+            "text": "find information about the lattest playstation games",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "lattest playstation games",
+                    "start": 27,
+                    "end": 52
+                }
+            ]
+        },
+        {
+            "text": "can you search the web about information on who is leading prayer",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "who is leading prayer",
+                    "start": 44,
+                    "end": 65
+                }
+            ]
+        },
+        {
+            "text": "I am curious about climate change make a research",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "climate change",
+                    "start": 19,
+                    "end": 33
+                }
+            ]
+        },
+        {
+            "text": "i need information on excercices for legs",
+            "entities": [
+                {
+                    "entity": "SEARCHWEBQUERY",
+                    "value": "excercices for legs",
+                    "start": 22,
+                    "end": 41
+                }
+            ]
         }
-      ]
-    }
-  ]
+    ]
 }

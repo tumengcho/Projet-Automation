@@ -57,7 +57,8 @@ for intent in data['intents']:
         response_for_intent[intent['intent']] = []
     for response in intent['responses']:
         response_for_intent[intent['intent']].append(response)
-    function_for_intent[intent['intent']] = intent['extension']['function']
+    if intent['extension']['function'] != "":
+        function_for_intent[intent['intent']] = intent['extension']['function']
 
 # Tokenize and pad sequences
 tokenizer = Tokenizer(filters='', oov_token='<unk>')
@@ -90,14 +91,21 @@ test_text_inputs = ["Shutdown the computer",
                     "Open Google Chrome",
                     "Search the web for Python tutorials",
                     "Open gitkraken",
-                    "Play muhammed hijab on youtube"
+                    "Play muhammed hijab on youtube",
+                    "Hello jarvis",
+                    "How are you mate",
+                    "Thank you very much"
                     ]
 
 test_intents = ["ShutdownComputer",
                 "OpenApplication",
                 "SearchWeb",
                 "OpenApplication",
-                "PlayYoutubeVideo"]
+                "PlayYoutubeVideo",
+                "Greet",
+                "HowYouDoing",
+                "Thank"
+                ]
 
 test_sequences = tokenizer.texts_to_sequences(test_text_inputs)
 test_padded_sequences = pad_sequences(test_sequences, padding='pre')
@@ -117,31 +125,61 @@ def extract_keywords(user_input):
     return r.get_ranked_phrases()
 
 # Generate response based on user input
+import random
+
+
 def response(sentence):
+    # Tokenize input sentence
     sent_tokens = [tokenizer.word_index.get(word, tokenizer.word_index['<unk>']) for word in sentence.split()]
     sent_tokens = tf.expand_dims(sent_tokens, 0)
+
+    # Make prediction
     pred = model(sent_tokens)
     pred_class = np.argmax(pred.numpy(), axis=1)
     intent = unique_intents[pred_class[0]]
-    return random.choice(response_for_intent[intent]), intent
+
+    # Check confidence level
+    confidence = pred.numpy()[0][pred_class[0]]
+    confidence_threshold = 0.5  # Adjust as needed
+
+    # If confidence is below threshold, classify as unknown
+    if confidence < confidence_threshold:
+        intent = "Unknown"
+
+    # Choose response
+    if intent == "Unknown":
+        # Respond with a generic message
+        response = "I'm sorry, I didn't quite catch that. Can you please repeat or rephrase?"
+    else:
+        # Choose a random response for the predicted intent
+        response = random.choice(response_for_intent[intent])
+
+    return response, intent
+
+
 def intent_has_entities(intent_name):
     for intent in data['intents']:
         if intent['intent'] == intent_name:
             return intent["extension"]["entities"]
     return False
+def intent_has_function(intent_name):
+    for intent in data['intents']:
+        if intent == intent_name:
+            return intent['extension']['function'] != ""
 
 # Search the web based on a query
-def search_web(query):
+def search_web(query, jarvis_app):
     print(f"Searching the web for information about {query}...")
     webbrowser.open("https://www.google.com/search?q=" + query)
-    results = list(search(query, num_results=10, lang="en", advanced=True))
+    results = list(search(query, num_results=10, advanced=True))
+    titles = []
+    for i, result in enumerate(results, start=1):
+        titles.append((result.title, result.description))
     if not results:
         print("No results found.")
         return
-
-    for i, result in enumerate(results, start=1):
-        print(f" {result.title}")
-
+    print(titles)
+    jarvis_app.add_layout.emit(titles)
     choice = input("Enter the number of the result you want to open (or 'q' to quit): ")
     if choice.lower() == 'q':
         print("Exiting search.")
@@ -157,6 +195,9 @@ def search_web(query):
 
 def shutdown_computer():
     ctypes.windll.user32.LockWorkStation()
+    ctypes.windll.user32.LockWorkStation()
+
+
 
 # Open an application
 def open_application(app_name):
@@ -224,7 +265,7 @@ def summarize_webpage(url, num_sentences=4):
 
 
 # Perform actions based on detected intent
-def JarvisAi(query):
+def JarvisAi(query, jarvis_app):
     bot_response, intent = response(query)
 
     if intent_has_entities(intent):
@@ -235,17 +276,22 @@ def JarvisAi(query):
             jarvis_reponse, value = replace_placeholders(bot_response, entities)
             print(entities)
             if value:
-                print("first")
-                speak(jarvis_reponse)
+                print(jarvis_reponse)
+
                 function_name = function_for_intent[intent]
-                globals()[function_name](value)
+                if function_name == "search_web":
+                    search_web(value,jarvis_app)
+                else:
+                    globals()[function_name](value)
         else:
-            speak("{} . Intent is {} -- but value is none existent. Please teach me.".format(query, intent))
+            print("{} . Intent is {} -- but value is none existent. Please teach me.".format(query, intent))
     elif intent in function_for_intent:
         # Call the function corresponding to the detected intent
-        speak(bot_response)
+        print(bot_response)
         function_name = function_for_intent[intent]
         globals()[function_name]()
+    else:
+        print(bot_response)
 
 
 def replace_placeholders(response, entities):
@@ -306,7 +352,7 @@ def listen(audio):
 
 class JarvisApp(QLabel):
     image_changed = pyqtSignal(str)
-    add_layout = pyqtSignal()
+    add_layout = pyqtSignal(list)
     remove_layout = pyqtSignal()
 
 
@@ -330,8 +376,9 @@ class JarvisApp(QLabel):
     def update_movie(self, movie_path):
         self.set_movie(movie_path)
 
-    def add_layout_to_label(self):
-        iron_man_titles = IronManTitles()
+    def add_layout_to_label(self,titles):
+        self.remove_current_layout()
+        iron_man_titles = IronManTitles(titles)
         layout = QVBoxLayout()
         layout.addWidget(iron_man_titles)
         self.setLayout(layout)
@@ -353,7 +400,7 @@ def main_loop(jarvis_app):
             if query.lower() == 'quit':
                 break
             jarvis_app.image_changed.emit("images/listening.gif")
-            JarvisAi(query)
+            JarvisAi(query, jarvis_app)
     elif "speak" in mode.lower():
         while True:
             jarvis_app.show()
@@ -365,7 +412,7 @@ def main_loop(jarvis_app):
                     break
             jarvis_app.image_changed.emit("images/listening.gif")
 
-            JarvisAi(query.lower())
+            JarvisAi(query.lower(), jarvis_app)
 
 
 
@@ -395,7 +442,6 @@ if __name__ == "__main__":
     # Start the Jarvis main loop in a separate thread
     thread = threading.Thread(target=main_loop, args=(jarvis_app,))
     thread.start()
-    jarvis_app.show()
 
 
     sys.exit(app.exec_())

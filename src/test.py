@@ -1,118 +1,50 @@
-# main.py
-import sys
-import threading
-from PyQt5.QtWidgets import QApplication, QLabel, QDesktopWidget, QVBoxLayout
-from PyQt5.QtCore import Qt, pyqtSignal
-from PyQt5.QtGui import QMovie
-from Jarvis_Ui import IronManTitles  # Corrected import statement
-from main import JarvisAi, capture_audio, listen
+import os
+import subprocess
+
+import requests
 
 
-class JarvisApp(QLabel):
-    image_changed = pyqtSignal(str)
-    add_layout = pyqtSignal(list)
-    remove_layout = pyqtSignal()
+def search_and_download_books(query):
+    url = "https://archive.org/advancedsearch.php"
+    params = {
+        "q": query,
+        "output": "json",
+        "fl[]": "identifier,title,creator,date,mediatype",
+    }
 
-    def __init__(self):
-        super().__init__()
-        self.movie_path = "images/listening.gif"
-        self.init_ui()
+    response = requests.get(url, params=params)
+    data = response.json()
+    os.makedirs("books", exist_ok=True)
+    # Download the first 5 books found
+    for result in data['response']['docs'][:5]:
+        identifier = result.get('identifier')
+        metadata_url = f"https://archive.org/metadata/{identifier}"
+        metadata_response = requests.get(metadata_url)
+        metadata = metadata_response.json()
+        file_path = os.path.join("books", f"{identifier}")
+        files = metadata['files']
+        # Find and download the first PDF file associated with the item
+        pdf_files = [file['name'] for file in files if file['name'].endswith('.pdf')]
+        if pdf_files:
+            pdf_url = f"https://archive.org/download/{identifier}/{pdf_files[0]}"
+            pdf_response = requests.get(pdf_url)
+            with open(f"{file_path}.pdf", "wb") as pdf_file:
+                pdf_file.write(pdf_response.content)
+            print(f"Downloaded: {file_path}.pdf")
+            open_pdf(f"{file_path}.pdf")
 
-    def init_ui(self):
-        self.current_layout = None
-        self.set_movie(self.movie_path)
-        self.setAlignment(Qt.AlignCenter)
-        self.setScaledContents(True)  # Scale the movie to fit the label
+def open_pdf(file_name):
+    """
+    Open the specified PDF file using the default PDF viewer on the system.
+    """
+    try:
+        if os.name == 'nt':  # For Windows
+            os.startfile(file_name)
+        elif os.name == 'posix':  # For Unix/Linux/MacOS
+            subprocess.run(['xdg-open', file_name])
+        else:
+            print("Unsupported operating system. Please open the file manually.")
+    except Exception as e:
+        print(f"Error opening file: {e}")
 
-    def set_movie(self, movie_path):
-        self.movie_path = movie_path
-        self.movie = QMovie(self.movie_path)
-        self.setMovie(self.movie)
-        self.movie.start()
-
-    def update_movie(self, movie_path):
-        self.set_movie(movie_path)
-
-    def add_layout_to_label(self, titles):
-        iron_man_titles = IronManTitles(titles)
-        layout = QVBoxLayout()
-        layout.addWidget(iron_man_titles)
-        self.setLayout(layout)
-
-    def remove_current_layout(self):
-        # Clear any existing layout
-        while self.layout().count():
-            item = self.layout().takeAt(0)
-            widget = item.widget()
-            if widget:
-                widget.deleteLater()
-
-def main_loop(jarvis_app):
-    mode = input("Speak or Write: ")
-    if "write" in mode.lower():
-        while True:
-            jarvis_app.image_changed.emit("images/speaking.gif")
-            query = input('You: ')
-            if query.lower() == 'quit':
-                break
-            elif "test web" in query.lower():
-                titles = [
-                    ("OpenAI", "A platform for artificial intelligence research and development"),
-                    ("GitHub", "A platform for hosting and collaborating on code projects"),
-                    ("Stack Overflow", "A community-driven question and answer site for programmers"),
-                    ("Medium", "A platform for publishing and reading articles and blog posts"),
-                    ("YouTube", "A video-sharing platform")
-                ]
-                jarvis_app.add_layout.emit(titles)
-            elif "close web" in query.lower():
-                jarvis_app.remove_layout.emit()
-            jarvis_app.image_changed.emit("images/listening.gif")
-            # JarvisAi(query)
-    elif "speak" in mode.lower():
-        while True:
-            jarvis_app.show()
-            jarvis_app.image_changed.emit("images/speaking.gif")
-            while True:
-                audio = capture_audio()
-                query = listen(audio)
-                if query:
-                    break
-
-            jarvis_app.image_changed.emit("images/listening.gif")
-
-            if "iron man" in query.lower():
-                titles = [
-                    ("OpenAI", "A platform for artificial intelligence research and development"),
-                    ("GitHub", "A platform for hosting and collaborating on code projects"),
-                    ("Stack Overflow", "A community-driven question and answer site for programmers"),
-                    ("Medium", "A platform for publishing and reading articles and blog posts"),
-                    ("YouTube", "A video-sharing platform")
-                ]
-                jarvis_app.add_layout.emit(titles)
-            elif "hello" in query.lower():
-                jarvis_app.remove_layout.emit()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    jarvis_app = JarvisApp()
-    jarvis_app.setWindowFlags(Qt.FramelessWindowHint)  # Remove window frame
-    jarvis_app.setAttribute(Qt.WA_TranslucentBackground)  # Make window background transparent
-
-    # Get the screen resolution
-    desktop = QDesktopWidget()
-    screen_rect = desktop.screenGeometry()
-    jarvis_app.setGeometry(screen_rect)
-
-    # Connect the image_changed signal to the update_movie slot
-    jarvis_app.image_changed.connect(jarvis_app.update_movie)
-
-    # Connect the add_layout signal to the add_layout_to_label slot
-    jarvis_app.add_layout.connect(jarvis_app.add_layout_to_label)
-
-    jarvis_app.remove_layout.connect(jarvis_app.remove_current_layout)
-    # Start the Jarvis main loop in a separate thread
-    thread = threading.Thread(target=main_loop, args=(jarvis_app,))
-    thread.start()
-    jarvis_app.show()
-
-    sys.exit(app.exec_())
+search_and_download_books("History reliability")  # Example query

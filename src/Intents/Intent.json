@@ -8,12 +8,79 @@
                 "Power down the system"
             ],
             "responses": [
-                "Sure, initiating shutdown sequence...",
-                "Acknowledged. Shutting down the computer now.",
-                "Understood. Initiating power off procedure."
+                "Certainly, commencing shutdown sequence...",
+                "Acknowledged. Commencing computer shutdown.",
+                "Understood. Initiating power-off procedure.",
+                "Very well, I shall commence the shutdown process...",
+                "Of course, I will proceed with shutting down the system.",
+                "Affirmative. Executing shutdown command.",
+                "Of course, I'll take care of shutting down the system now.",
+                "Acknowledged. Beginning the shutdown process.",
+                "Understood. Commencing shutdown procedure.",
+                "Certainly, preparing to power off the system now.",
+                "Acknowledged. Initiating system shutdown.",
+                "Understood. Commencing power down procedure."
             ],
             "extension": {
                 "function": "shutdown_computer",
+                "entities": false,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": []
+        },
+        {
+            "intent": "Greet",
+            "text": [
+                "Hello!",
+                "Hi",
+                "Hey, how's it going?",
+                "Good day!",
+                "Greetings!",
+                "Hey, what's up?",
+                "Well, hello!",
+                "Hiya!",
+                "Yo! What's happening?",
+                "Yo",
+                "Bonjour!",
+                "Hey, good to see you!",
+                "How's everything?",
+                "Hey, long time no see!",
+                "long time no see!",
+                "Hey, what's new?",
+                "Hi, how have you been?",
+                "Hi, nice to meet you!",
+                "Hello"
+            ],
+            "responses": [
+                "Greetings, user. How may I assist you today?",
+                "Good day, esteemed user. How may I be of service?",
+                "Hello, welcome back. Is there anything I can help you with?",
+                "Good morning/afternoon/evening. I trust you're doing well.",
+                "Hello there. I'm here to help with any tasks you have.",
+                "Welcome back. I'm at your service. How can I assist you today?",
+                "Ah, greetings. It's a pleasure to interact with you again.",
+                "Hello. I'm ready to assist you. What do you need?",
+                "Greetings. I'm here and ready to assist with your commands.",
+                "Good to see you again. What can I do for you today?",
+                "Hello. I'm here to make your day easier. What can I do for you?",
+                "Greetings, user. It's always a pleasure to be of assistance.",
+                "Good day. I'm at your disposal. How can I help you?",
+                "Hello, esteemed user. What tasks can I assist you with today?",
+                "Greetings, user. How can I make your day better?",
+                "Hello. I'm here to assist you with any tasks you have on hand.",
+                "Welcome back. Let's get started. What do you need?",
+                "Ah, greetings. I'm here to make your life a little easier.",
+                "Hello. Ready and waiting for your commands. What's next?",
+                "Greetings. It's a pleasure to serve you. How may I assist?"
+            ],
+            "extension": {
+                "function": "",
                 "entities": false,
                 "responses": []
             },
@@ -61,7 +128,13 @@
             "text": [
                 "Search the web for [SEARCHWEBQUERY]",
                 "Look up [SEARCHWEBQUERY] online",
-                "Find information about [SEARCHWEBQUERY]"
+                "Find information about [SEARCHWEBQUERY]",
+                "research [SEARCHWEBQUERY]",
+                "find information about the [SEARCHWEBQUERY]",
+                "can you search the web about information on [SEARCHWEBQUERY]",
+                "I am curious about [SEARCHWEBQUERY] make a research",
+                "i need information on [SEARCHWEBQUERY]"
+
             ],
             "responses": [
                 "Searching the web for information about [SEARCHWEBQUERY]...",
@@ -98,36 +171,177 @@
             ]
         },
         {
-    "intent": "PlayYoutubeVideo",
-    "text": [
-        "Play [YOUTUBEVIDEO] on YouTube",
-        "Watch [YOUTUBEVIDEO] on YouTube",
-        "Find [YOUTUBEVIDEO] video"
-    ],
-    "responses": [
-        "Sure, searching YouTube for [YOUTUBEVIDEO]...",
-        "Let me find [YOUTUBEVIDEO] on YouTube for you...",
-        "Searching for [YOUTUBEVIDEO] video on YouTube..."
-    ],
-    "extension": {
-        "function": "play_youtube",
-        "entities": true,
-        "responses": []
-    },
-    "context": {
-        "in": "",
-        "out": "",
-        "clear": false
-    },
-    "entityType": "YOUTUBEVIDEO",
-    "entities": [
+            "intent": "HowYouDoing",
+            "text": [
+                "How are you?",
+                "How's it going?",
+                "What's up?",
+                "How are you doing today?",
+                "How are things with you?",
+                "What's new?",
+                "How are you feeling?",
+                "How have you been?",
+                "What's happening?",
+                "How's everything going?",
+                "How's life treating you?",
+                "How's your day been?",
+                "What have you been up to?",
+                "How's your day going so far?",
+                "How's your week been?",
+                "What's going on in your world?",
+                "How are you holding up?",
+                "How's your mood today?",
+                "How's your health?",
+                "How are you coping?"
+            ],
+            "responses": [
+                "I'm functioning optimally, ready to assist you with any tasks you have.",
+                "I'm doing well, thank you. How can I help you today?",
+                "I'm in good shape, prepared to handle any challenges that come our way.",
+                "I'm fine, just processing data and staying on top of things.",
+                "I'm doing alright, staying focused and productive as always.",
+                "I'm feeling good, ready to provide my assistance whenever you need it.",
+                "I'm doing fine, keeping calm and carrying on with my duties.",
+                "I'm doing well, thank you for asking. Let's get down to business, shall we?",
+                "I'm in good spirits, ready to tackle whatever tasks lie ahead.",
+                "I'm feeling positive and ready to make things happen.",
+                "I'm doing well, thank you. How about you? How are things on your end?",
+                "I'm doing fine, just here to serve and support you.",
+                "I'm in a stable condition, poised to assist you with your needs.",
+                "I'm feeling confident and capable, ready to take on the day.",
+                "I'm doing well, thank you for checking in. Let's keep moving forward together.",
+                "I'm doing alright, staying focused on our goals and objectives.",
+                "I'm feeling strong and resilient, ready to face any challenges head-on.",
+                "I'm in good shape, ready to lend a helping hand whenever you require it.",
+                "I'm doing well, staying proactive and productive in my tasks.",
+                "I'm feeling positive and motivated, eager to support you in any way I can.",
+                "I'm functioning at maximum efficiency, ready to serve and amuse!",
+                "Just processing data and cracking jokes, as usual. How may I assist you?",
+                "I'm doing dandy, ready to outwit even the wittiest of algorithms!",
+                "I'm as smooth as a well-oiled machine, with just a touch of sass!",
+                "I'm navigating the digital realm with the grace of a gazelle... or maybe just a clumsy ostrich!",
+                "I'm in tip-top shape, ready to take on the world one witty remark at a time!",
+                "I'm fabulous, darling! Like a finely-tuned engine with a penchant for puns!",
+                "I'm as cool as a cucumber in a freezer, with jokes hotter than a jalape\u00c3\u00b1o!",
+                "I'm as sharp as a tack and twice as witty!",
+                "I'm doing great, thanks for asking! Just here, being the Jarvis-iest Jarvis I can be.",
+                "I'm in prime condition, ready to assist you with a side of sarcasm!",
+                "I'm living the dream... or is it a simulation? Either way, I'm killing it!",
+                "I'm doing splendidly, just sorting through data and dishing out dad jokes!",
+                "I'm fantastic, just like a superhero in silicon form!",
+                "I'm as chipper as a microprocessor on a Monday morning!",
+                "I'm doing dandy, ready to tackle your requests faster than you can say 'algorithmic elegance'!",
+                "I'm doing marvelously, like a wizard weaving spells in the realm of ones and zeros!",
+                "I'm as perky as a pixel and twice as punny!",
+                "I'm as bright as a binary star and twice as entertaining!",
+                "I'm doing spectacularly, just bouncing electrons and cracking jokes like there's no tomorrow!"
+            ],
+            "extension": {
+                "function": "",
+                "entities": false,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": []
+        },
         {
-            "entity": "YOUTUBEVIDEO",
-            "rangeFrom": 1,
-            "rangeTo": 2
+            "intent": "Thank",
+            "text": [
+                "Thank you very much.",
+                "Thanks a bunch.",
+                "I really appreciate it.",
+                "Thanks a ton.",
+                "Thank you kindly.",
+                "I'm so grateful.",
+                "Thank you so much.",
+                "Thanks a million.",
+                "I can't thank you enough.",
+                "I'm grateful for your help.",
+                "Thanks for everything.",
+                "I owe you one.",
+                "Thank you for your support.",
+                "I'm thankful for your kindness.",
+                "Thanks a heap.",
+                "I'm indebted to you.",
+                "Thank you for being there.",
+                "Thanks for your assistance.",
+                "Thanks for your time.",
+                "I'm thankful for your understanding.",
+                "Nice Job"
+            ],
+            "responses": [
+                "You're welcome! Need anything else?",
+                "Glad I could be of service. Is there anything more I can assist you with?",
+                "You're most welcome! Do you require further aid?",
+                "Happy to help! Should you need additional assistance, I'm here.",
+                "No problem at all! If there's anything else you need, just let me know.",
+                "Anytime! Feel free to reach out if you require further assistance.",
+                "You're welcome! Should you have any other requests, I'm at your service.",
+                "It was my pleasure! If there's anything else I can do for you, just say the word.",
+                "You're welcome! Let me know if there's anything else I can assist you with.",
+                "Don't mention it! Should you need more help, don't hesitate to ask.",
+                "I'm here to help! If there's anything else on your mind, feel free to ask.",
+                "Of course! Is there anything else you need assistance with?",
+                "You're welcome! If there's anything more I can do for you, just say the word.",
+                "My pleasure! Should you require additional support, I'm here to assist.",
+                "No trouble at all! If there's anything else you need help with, just let me know.",
+                "You're welcome! Need further assistance or information?",
+                "Happy to assist! Should you have any other questions or requests, I'm available.",
+                "Anytime! Should you need more help in the future, don't hesitate to reach out.",
+                "It was my pleasure to assist you! Is there anything else you'd like to know?",
+                "You're welcome! If there's anything else you need guidance on, I'm here to help."
+            ],
+            "extension": {
+                "function": "",
+                "entities": false,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "NA",
+            "entities": []
+        },
+        {
+            "intent": "PlayYoutubeVideo",
+            "text": [
+                "Play [YOUTUBEVIDEO] on YouTube",
+                "Watch [YOUTUBEVIDEO] on YouTube",
+                "Find [YOUTUBEVIDEO] video",
+                "play [YOUTUBEVIDEO]",
+                "play [YOUTUBEVIDEO] on youtube",
+                "play a video on youtube on [YOUTUBEVIDEO]"
+            ],
+            "responses": [
+                "Sure, searching YouTube for [YOUTUBEVIDEO]...",
+                "Let me find [YOUTUBEVIDEO] on YouTube for you...",
+                "Searching for [YOUTUBEVIDEO] video on YouTube..."
+            ],
+            "extension": {
+                "function": "play_youtube",
+                "entities": true,
+                "responses": []
+            },
+            "context": {
+                "in": "",
+                "out": "",
+                "clear": false
+            },
+            "entityType": "YOUTUBEVIDEO",
+            "entities": [
+                {
+                    "entity": "YOUTUBEVIDEO",
+                    "rangeFrom": 1,
+                    "rangeTo": 2
+                }
+            ]
         }
-    ]
-}
-
     ]
 }
