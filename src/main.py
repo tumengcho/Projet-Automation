@@ -350,7 +350,7 @@ class JarvisApp(QLabel):
         self.current_layout = None
         self.set_movie(self.movie_path)
         self.setAlignment(Qt.AlignCenter)
-        self.setScaledContents(True)  # Scale the movie to fit the label
+        self.setScaledContents(True)
 
     def set_movie(self, movie_path):
         self.movie_path = movie_path
@@ -369,7 +369,6 @@ class JarvisApp(QLabel):
         self.setLayout(layout)
 
     def remove_current_layout(self):
-        # Clear any existing layout
         while self.layout().count():
             item = self.layout().takeAt(0)
             widget = item.widget()
@@ -378,6 +377,7 @@ class JarvisApp(QLabel):
 
 def main_loop(jarvis_app):
     mode = input("Speak or Write: ")
+
     if "write" in mode.lower():
         while True:
             jarvis_app.image_changed.emit("images/speaking.gif")
@@ -385,7 +385,7 @@ def main_loop(jarvis_app):
             if query.lower() == 'quit':
                 break
             jarvis_app.image_changed.emit("images/listening.gif")
-            JarvisAi(query, jarvis_app)
+            JarvisAi(query.lower(), jarvis_app)
     elif "speak" in mode.lower():
         while True:
             jarvis_app.show()
@@ -403,29 +403,27 @@ def main_loop(jarvis_app):
 
 
 
+
 if __name__ == "__main__":
     faulthandler.enable()
     app = QApplication(sys.argv)
     jarvis_app = JarvisApp()
-    jarvis_app.setWindowFlags(Qt.FramelessWindowHint)  # Remove window frame
-    jarvis_app.setAttribute(Qt.WA_TranslucentBackground)  # Make window background transparent
+    jarvis_app.setWindowFlags(Qt.FramelessWindowHint)
+    jarvis_app.setAttribute(Qt.WA_TranslucentBackground)
 
-    # Get the screen resolution
     desktop = QDesktopWidget()
     screen_rect = desktop.screenGeometry()
     jarvis_app.setGeometry(screen_rect)
 
 
-    # Connect the image_changed signal to the update_movie slot
     jarvis_app.image_changed.connect(jarvis_app.update_movie)
 
-    # Connect the add_layout signal to the add_layout_to_label slot
     jarvis_app.add_layout.connect(jarvis_app.add_layout_to_label)
 
     jarvis_app.remove_layout.connect(jarvis_app.remove_current_layout)
 
-    # Start the Jarvis main loop in a separate thread
     thread = threading.Thread(target=main_loop, args=(jarvis_app,))
+    jarvis_app.show()
     thread.start()
 
 
