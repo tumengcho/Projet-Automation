@@ -26,27 +26,22 @@ import speech_recognition as sr
 from Jarvis_Ui import IronManTitles
 
 
-# Download NLTK resources
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 
-# Load intents from JSON file
 with open('Intents/Intent.json', 'r') as f:
     data = json.load(f)
 
-# Clean text data
 def clean(line):
     return ' '.join([word for word in line.split() if word.isalpha()])
 
-# Initialize lists and dictionaries for intents
 intents = []
 unique_intents = []
 text_input = []
 response_for_intent = {}
 function_for_intent = {}
 
-# Extract data from JSON
 for intent in data['intents']:
     if intent['intent'] not in unique_intents:
         unique_intents.append(intent['intent'])
@@ -60,19 +55,16 @@ for intent in data['intents']:
     if intent['extension']['function'] != "":
         function_for_intent[intent['intent']] = intent['extension']['function']
 
-# Tokenize and pad sequences
 tokenizer = Tokenizer(filters='', oov_token='<unk>')
 tokenizer.fit_on_texts(text_input)
 sequences = tokenizer.texts_to_sequences(text_input)
 padded_sequences = pad_sequences(sequences, padding='pre')
 
-# Convert intents to categorical vectors
 intent_to_index = {intent: index for index, intent in enumerate(unique_intents)}
 categorical_target = [intent_to_index[intent] for intent in intents]
 num_classes = len(unique_intents)
 categorical_vec = tf.keras.utils.to_categorical(categorical_target, num_classes=num_classes)
 
-# Define and compile the model
 model = tf.keras.models.Sequential([
     tf.keras.layers.Embedding(len(tokenizer.word_index) + 1, 300),
     tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(50, dropout=0.1)),
@@ -82,11 +74,9 @@ model = tf.keras.models.Sequential([
 ])
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Train the model
 model.fit(padded_sequences, categorical_vec, epochs=200, verbose=0)
 print(num_classes)
 
-# Test data
 test_text_inputs = ["Shutdown the computer",
                     "Open Google Chrome",
                     "Search the web for Python tutorials",
@@ -113,9 +103,7 @@ test_labels = np.array([intent_to_index[intent] for intent in test_intents])
 test_labels = tf.keras.utils.to_categorical(test_labels, num_classes=num_classes)
 loss, accuracy = model.evaluate(test_padded_sequences, test_labels)
 
-# Extract keywords from user input
 def speak(text):
-    # Initialize the text-to-speech engine
     engine = pyttsx3.init()
     engine.say(text)
     engine.runAndWait()
@@ -124,16 +112,13 @@ def extract_keywords(user_input):
     r.extract_keywords_from_text(user_input)
     return r.get_ranked_phrases()
 
-# Generate response based on user input
 import random
 
 
 def response(sentence):
-    # Tokenize input sentence
     sent_tokens = [tokenizer.word_index.get(word, tokenizer.word_index['<unk>']) for word in sentence.split()]
     sent_tokens = tf.expand_dims(sent_tokens, 0)
 
-    # Make prediction
     pred = model(sent_tokens)
     pred_class = np.argmax(pred.numpy(), axis=1)
     intent = unique_intents[pred_class[0]]
